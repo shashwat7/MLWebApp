@@ -1,0 +1,17 @@
+@(inputForm: Form[TextBoxModel])(implicit messages: Messages)
+
+@import helper._
+
+@main("Simple Linnear Regression") {
+
+	<p>Expecting input as (x,y) with each trainint example on a different line.
+	<br>
+	Missing values will be considered as 0.0
+	</p>
+	
+	@form(action = routes.SimpleLinnearRegression.getHypothesis){
+		@textarea(field = inputForm("box"), args = 'rows -> 10, 'cols -> 20, 'placeholder -> "x,y")
+		<input type="submit" value="Submit">
+	}
+
+}

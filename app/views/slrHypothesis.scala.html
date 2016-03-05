@@ -1,0 +1,21 @@
+@(hypothesis: (Double,Double))(implicit messages: Messages)
+
+@import helper._
+
+@main("Simple Linnear Regression") {
+
+	<input type="text" id="forX" onchange="displayY()" placeholder="Value of X">
+	<p id="valueY"></p>
+	<script type="text/javascript">
+		function displayY(){
+			var theta0 = @hypothesis._1
+			var theta1 = @hypothesis._2
+			var x = document.getElementById("forX").value
+			var y = theta0 + theta1 * x
+			document.getElementById("valueY").innerHTML = "Y = " + y + " for X = " + x
+		}
+	</script>
+
+	Y = @hypothesis._1 + @hypothesis._2 * X 
+
+}
