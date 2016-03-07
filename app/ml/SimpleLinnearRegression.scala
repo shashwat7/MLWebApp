@@ -6,6 +6,11 @@ import play.api.Logger
 */
 object SimpleLinnearRegression{
 
+	def withNVar(trainingData: Array[String]) = {
+		val n: Int = trainingData.head.split(",").length
+
+	}
+
 	def with2var(trainingData: Array[(Double,Double)]) : (Double,Double) = {
 		// This function returns value of (theta0, theta1)
 		Logger.debug("Following is the training set recieved")

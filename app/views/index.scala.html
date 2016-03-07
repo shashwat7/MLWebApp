@@ -1,9 +1,47 @@
-@(message: String)
+@(inputForm: Form[GenericCSVForm])(message: String)(implicit messages: Messages)
 
-@main("Machine Learning") {
+@import helper._
 
-    Hello @message
-    <br>
-    <a href="/simpleLinnearRegression"> Simple Linnear Regression With 2 Variables</a>
+@main(title = message) {
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Butter Learn</h1>
+			<p class="lead">
+				Butter Learn is an online tool to apply machine learning algorithms on various data sets.<br>
+				Enter your training data as a CSV, and get the hypothesis function.
+			</p>
+		</div>
+
+		<div class="form-group">
+			@form(action = routes.Application.getAllHypothesis){
+				<label for="trainingSet">Training Set:</label>
+				@textarea(
+					field = inputForm("box"),
+					args = 'rows -> 5, 'class -> "form-control", 'placeholder -> "x1,x2,x3...,y", 'id -> "trainingSet"
+				)
+				<input type="submit" class="btn btn-primary" value="Submit">
+			}
+		</div>
+		
+		<h2>Machine Learning Agorithms</h2>
+		  <p>If you know which algorithm to apply to your data set:</p>            
+		  <table class="table">
+		    <thead>
+		      <tr>
+		        <th>Algorithm</th>
+		        <th>Training Data Format</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr>
+		        <td><a href="/simpleLinnearRegression">Simple Linnear Regression With 2 Variables</a></td>
+		        <td>(x,y)</td>
+		      </tr>
+		    </tbody>
+		  </table>
+
+	</div><!-- /.container -->
 
 }

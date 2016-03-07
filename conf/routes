@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index
+POST	/getAllHypothesis			controllers.Application.getAllHypothesis
 
 # For Simple Linnear Regression of 2 variables
 GET		/simpleLinnearRegression	controllers.SimpleLinnearRegression.index

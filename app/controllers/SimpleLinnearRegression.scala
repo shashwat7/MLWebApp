@@ -9,6 +9,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.data.validation._
 import ml._
 
+case class TextBoxModel(box: String)
+
 class SimpleLinnearRegression extends Controller {
 
 	val validateAsCsvConstraint: Constraint[String] = Constraint("Check 2 value CSV")({
@@ -57,5 +59,3 @@ class SimpleLinnearRegression extends Controller {
   }
 
 }
-
-case class TextBoxModel(box: String)
