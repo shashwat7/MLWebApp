@@ -1,14 +1,57 @@
 package ml
 
+import breeze.linalg._
+import breeze.numerics._
 import play.api.Logger
+import breeze.stats.mean
+import breeze.stats.variance
 /*
 ** This class is the implementation of linnear regression
 */
 object SimpleLinnearRegression{
 
-	def withNVar(trainingData: Array[String]) = {
-		val n: Int = trainingData.head.split(",").length
+	def withNVar(X: DenseMatrix[Double], y: DenseVector[Double], m: Int, n: Int, alpha: Double, accuracy: Double): DenseVector[Double] = {
+		X := featureNormalization(X)._1
+		val theta = DenseVector.zeros[Double](n+1)
+		gradientDescent(addXZero(X), y, theta, alpha, accuracy)
+	}
 
+	def featureNormalization(X: DenseMatrix[Double]): (DenseMatrix[Double],Transpose[DenseVector[Double]], Transpose[DenseVector[Double]]) = {
+		val n: Int = X.cols // number of features
+		val mu = mean(X(::,*))
+		val sigma = variance(X(::,*))
+		for(i <- 0 to (n-1)){
+			X(::,i) :+= -1 * mu(i)
+			X(::,i) :*= 1 / sigma(i)
+		}
+		(X, mu, sigma)
+	}
+
+	def addXZero(X: DenseMatrix[Double]): DenseMatrix[Double] = {
+		val m = X.rows
+		val n = X.cols
+		val temp = DenseMatrix.zeros[Double](m,n+1)
+		temp(::, 0) := DenseVector.ones[Double](m)
+		temp(::, 1 to n) := X(:: , 0 to n-1)
+		temp
+	}
+
+	def computeCost(X: DenseMatrix[Double], y: DenseVector[Double], theta: DenseVector[Double]): Double = {
+		sum(pow(((X * theta) - y),2)) / (2 * X.rows)
+	}
+
+	def gradientDescent(X: DenseMatrix[Double], y: DenseVector[Double], theta: DenseVector[Double], alpha: Double, accuracy: Double): DenseVector[Double] = {
+		var isAccurate = false
+		val updatedTheta = theta
+		var cost = 999999.9
+		do {
+			val delta = (X.t * ((X * theta) - y))
+			delta :/= X.rows.toDouble
+			updatedTheta :-= delta * alpha
+			cost = computeCost(X,y,updatedTheta)
+			Logger.debug("Cost: " + cost)
+		} while(cost > accuracy)
+		updatedTheta
 	}
 
 	def with2var(trainingData: Array[(Double,Double)]) : (Double,Double) = {
