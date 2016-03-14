@@ -1,0 +1,28 @@
+@(inputForm: Form[GenericCSVForm])(implicit messages: Messages)
+
+@import helper._
+
+@main(title = "Logistic Regression") {
+
+	<div class="container">
+
+		<div class="starter-template">
+			<h1>Logistic Regression</h1>
+			<p class="lead">
+				Logistic regression is a method for classifying data into discrete outcomes.<br>
+				Enter your training data as (input1, input2...., output) with each training example on a different line.
+			</p>
+		</div>
+
+		@form(action = routes.LogisticRegression.getHypothesis){
+			<label for="trainingSet">Training Set:</label>
+			@textarea(
+				field = inputForm("box"),
+				args = 'rows -> 5, 'class -> "form-control", 'placeholder -> "input1, input2 , .... , output", 'id -> "trainingSet"
+			)
+			<input type="submit" class="btn btn-primary" value="Submit">
+		}
+
+	</div><!-- /.container -->
+
+}
